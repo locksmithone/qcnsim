@@ -1,0 +1,351 @@
+/**
+ * @author Marcos Portnoi
+ * @date May 2013
+ * 
+ * @copyright Copyright (C) 2013 University of Delaware.
+ * @copyright QCNSim uses elements of TARVOS simulator, Copyright (C) 2005, 2006, 2007 Marcos Portnoi.
+ * @par
+ * This file is part of QCNSim.  QCNSim is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.<br>
+ * QCNSim is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.<br>
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with QCNSim.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * @brief Demo simulation to display capabilities of krnel a some layer 2 classes.
+ *
+ * @details 
+ * This simulation considers a high number of clients connected to either one or other central server.
+ * Clients are connected through links of 1 Mbps and 60 ms of propagation delay (for an average-speed network link).
+ * Traffic will be exponential, modeling a 1500-byte PDU generated according to an exponential distribution with mean 0.5 seconds.
+ * Initially, all clients are connected to one central facility. At mid-simulation, 50% of the clients (probability) will be rerouted to 
+ * a backup facility, similar to the central one. Each facilily has 4 servers, each capable of serving 60 requests/clients per second,
+ * distributed exponentially.
+ */
+
+#include "QcnSim.h"
+
+int main() {
+	// Build simulation objects.
+	double serviceTimeNetworkLinks = 1500 * 8 / std::pow(10, 6); // Service time for network links, seconds.
+	double propagationDelay = 0.06; // Propagation delay in seconds.
+	double serviceTimeCentralServer = 1/1000.0; // Service time for central server.
+	double interarrivalTime = 1.0; // Interarrival time for Poisson traffic generator.
+	unsigned int seed = 1; // Seed for random number generator.
+	double maxSimulationTime = 10.0; // Maximum simulation time.
+	double turnOnGenerators = 0.0; // Time to turn on generators.
+	double turnOffGenerators = 5.0; // Time to turn off generators.
+	double activateBackupFacilities = turnOnGenerators + 1; // Time to activate backup facilities.
+	//double activateBackupFacilities = 0.0; // Time to activate backup facilities.
+	bool simulationEnded = false; // Indicates the simulation has ended.
+	Event currentEvent;
+	//std::map<std::shared_ptr<Facility>, std::shared_ptr<ExponentialTrafficGenerator>> sourceAndLink;
+	//std::map<std::shared_ptr<Facility>, std::shared_ptr<ExponentialTrafficGenerator>>::iterator sourceAndLinkIterator; // Create iterator for map.
+	std::map<std::shared_ptr<Facility>, ExponentialTrafficGenerator> sourceAndLink;
+	std::map<std::shared_ptr<Facility>, ExponentialTrafficGenerator>::iterator sourceAndLinkIterator; // Create iterator for map.
+	std::map<std::shared_ptr<Facility>, unsigned int> boincServer;
+	std::map<std::shared_ptr<Facility>, unsigned int>::iterator boincServerIterator; // Create iterator for this map.
+	std::shared_ptr<Facility> facility;
+	std::shared_ptr<Token> token;
+	bool printTrace = false;
+	
+	//ExponentialTrafficGenerator exponentialGenerator;
+	//unsigned int totalTokensArrivedAtCentralFacility = 0;
+	//unsigned int totalTokensArrivedAtBackupFacility = 0;
+	double arrivalRate = 0;
+	int numberOfGenerators = 100000; // Number of generators and attached links.
+	int numberOfBoincServers = 4; // Number of BOINC servers, minimum is 2. First is the central, others are backups.
+	bool isBackupServerActive = false; // Controls whether token should be directed to backup servers by probability.
+	bool destinationIsCentralOrBackup = false; // Controls whether token has as destination a BOINC server.
+
+	// A few random variates.
+	//std::exponential_distribution<double> exponentialVariateLink(1/serviceTimeNetworkLinks);  // The exponential generator takes lambda (Poisson), not tau!
+	std::exponential_distribution<double> exponentialVariateCentralServer(1/serviceTimeCentralServer);  // The exponential generator takes lambda (Poisson), not tau!
+	std::uniform_int_distribution<int> uniformVariate(0,numberOfBoincServers-1); // Uniform probability generator, [0,numberOfBoincServers-1].
+	int randomBoincServer;
+	
+
+	// SimulatorGlobals.
+	SimulatorGlobals simulatorGlobals(0.0, 0.0, false, "Multiple links");
+
+	// Scheduler
+	Scheduler scheduler(simulatorGlobals);
+
+	// Create one central facility with 8 servers, four similar backup facilities.
+	// Central facility will always be the first one in the map; others will be backup facilities.
+	//std::vector<std::shared_ptr<Facility>> facilityVector;
+	std::cout << "Building BOINC servers (facilities)...";
+	for (int i = 0; i < numberOfBoincServers; ++i) {
+		boincServer.insert(std::pair<std::shared_ptr<Facility>,unsigned int>(std::shared_ptr<Facility>(new Facility("BOINC Server", 8, simulatorGlobals, scheduler)), 0));
+	}
+	std::cout << "   Done." << std::endl;
+	//facilityVector.push_back(std::shared_ptr<Facility>(new Facility("Central Facility", 8, simulatorGlobals, scheduler)));
+	//facilityVector.push_back(std::shared_ptr<Facility>(new Facility("Backup Facility 1", 8, simulatorGlobals, scheduler)));
+	//facilityVector.push_back(std::shared_ptr<Facility>(new Facility("Backup Facility 2", 8, simulatorGlobals, scheduler)));
+	//facilityVector.push_back(std::shared_ptr<Facility>(new Facility("Backup Facility 3", 8, simulatorGlobals, scheduler)));
+	//facilityVector.push_back(std::shared_ptr<Facility>(new Facility("Backup Facility 4", 8, simulatorGlobals, scheduler)));
+	//std::shared_ptr<Facility> backupFacility(new Facility("Backup Facility", 8, simulatorGlobals, scheduler));
+
+	// Set up token contents and some dummy entities.
+	std::shared_ptr<Message> tokenContents(new Message("Message within token"));
+	std::shared_ptr<Message> source(new Message("Source"));
+	
+	// Create facilities and attach exponential generators to simulate simplex network links and message generators.
+	std::cout << "Building generators and links...";
+	for (int i = 0; i < numberOfGenerators; ++i) {
+		std::shared_ptr<Facility> facility(new Facility("Simplex link", simulatorGlobals, scheduler));
+		// Notice that routing is still not implemented, that is why source and destination are the same for this code.
+		ExponentialTrafficGenerator exponentialGenerator(simulatorGlobals, scheduler, EventType::TRAFFIC_GENERATOR_ARRIVAL, tokenContents, facility, facility, 1, interarrivalTime, seed);
+		//std::shared_ptr<ExponentialTrafficGenerator> exponentialGenerator(new ExponentialTrafficGenerator(simulatorGlobals, scheduler, EventType::TRAFFIC_GENERATOR_ARRIVAL, tokenContents, facility, facility, 1, interarrivalTime, seed));
+		//sourceAndLink.insert(std::pair<std::shared_ptr<Facility>,std::shared_ptr<ExponentialTrafficGenerator>>(facility, exponentialGenerator));
+		sourceAndLink.insert(std::pair<std::shared_ptr<Facility>,ExponentialTrafficGenerator>(facility, exponentialGenerator));
+	}
+	std::cout << "   Done." << std::endl;
+
+	
+	// One exponential traffic generator
+	//ExponentialTrafficGenerator exponentialGenerator(simulatorGlobals, scheduler, EventType::TRAFFIC_GENERATOR_ARRIVAL, tokenContents, source, facility, 1, interarrivalTime, seed);
+	
+	// Build initial events.
+	scheduler.schedule(Event(0.0, EventType::BEGIN_SIMULATION, NULL));  // Begin simulation.
+	scheduler.schedule(Event(turnOnGenerators, EventType::TURN_ON_GENERATORS, NULL)); // Turn on traffic generators.
+	scheduler.schedule(Event(turnOffGenerators, EventType::TURN_OFF_GENERATORS, NULL)); // Turn off traffic generators.
+	scheduler.schedule(Event(maxSimulationTime, EventType::END_SIMULATION, NULL));
+
+	// This will reroute half of the clients to backup server at mid-generation.
+	//scheduler.schedule(Event(turnOffGenerators/2, EventType::ACTIVATE_BACKUP_FACILITY, NULL));
+	// Reroute half of clients 1 second after start of generation.
+	scheduler.schedule(Event(activateBackupFacilities, EventType::ACTIVATE_BACKUP_FACILITY, NULL));
+
+	// Main while loop to control events.
+	while (! simulationEnded) {
+		currentEvent = scheduler.cause(); // Fetch next event from event chain/scheduler.
+		// Decide on what to do based on EventType.
+		switch (currentEvent.eventType) {
+
+		case EventType::BEGIN_SIMULATION:
+			// Nothing really to do here...
+			break;
+
+		case EventType::TURN_ON_GENERATORS:
+			// Turn on traffic generators, schedule an initial arrival.
+			//for (auto keyValue : sourceAndLink) {
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::TURN_ON_GENERATORS" << std::endl;
+			std::cout << "Turning on generators...";
+			for (auto &keyValue : sourceAndLink) {
+				//keyValue.second->turnOn();
+				//keyValue.second->createInstanceTrafficEvent();
+				keyValue.second.turnOn();
+				keyValue.second.createInstanceTrafficEvent();
+			}
+			std::cout << "   Done." << std::endl;
+			break;
+
+		case EventType::TURN_OFF_GENERATORS:
+			// Turn off traffic generators
+			//for (auto keyValue : sourceAndLink) {
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::TURN_OFF_GENERATORS" << std::endl;
+			std::cout << "Turning off generators...";
+			for (auto &keyValue : sourceAndLink) {
+				keyValue.second.turnOff();
+			}
+			std::cout << "   Done." << std::endl;
+			break;
+
+		case EventType::TRAFFIC_GENERATOR_ARRIVAL:
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::TRAFFIC_GENERATOR_ARRIVAL" << std::endl;
+			// Arrival from traffic generator. Schedule request service for this token.
+			scheduler.schedule(Event(0.0, EventType::REQUEST_SERVICE_FOR_TOKEN_AT_FACILITY, std::dynamic_pointer_cast<const Token>(currentEvent.entity) ));
+			// Schedule new arrival from generator.
+			sourceAndLinkIterator=sourceAndLink.find(std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->source)); // Find the attached generator to current facility.
+			//sourceAndLinkIterator->second->createInstanceTrafficEvent();
+			sourceAndLinkIterator->second.createInstanceTrafficEvent();
+			break;
+
+		case EventType::REQUEST_SERVICE_FOR_TOKEN_AT_FACILITY:
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::REQUEST_SERVICE_FOR_TOKEN_AT_FACILITY" << std::endl;
+			// Request service for current token. If token was successfully put into service, schedules release. Otherwise, do nothing (it was probably enqueued)>
+			if (std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->destination)->request(std::dynamic_pointer_cast<const Token>(currentEvent.entity), EventType::REQUEST_SERVICE_FOR_TOKEN_AT_FACILITY) == FacilityReturnType::TOKEN_PUT_IN_SERVICE) {
+				// Link modeling is not perfect here, since the propagation is added to the transmission. It should be separate as an infinite-capacity server.
+				scheduler.schedule(Event(serviceTimeNetworkLinks + propagationDelay, EventType::RELEASE_TOKEN_FROM_SERVICE_AT_FACILITY, std::dynamic_pointer_cast<const Token>(currentEvent.entity)));
+			}
+			break;
+
+		case EventType::RELEASE_TOKEN_FROM_SERVICE_AT_FACILITY:
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::RELEASE_TOKEN_FROM_SERVICE_AT_FACILITY" << std::endl;
+			// Release token from service at facility.
+			//facility->release(std::dynamic_pointer_cast<const Token>(currentEvent.entity));
+			std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->destination)->release(std::dynamic_pointer_cast<const Token>(currentEvent.entity));
+			
+			// Change token destination if not yet at Central Facility or Backup Facility.
+			token = std::dynamic_pointer_cast<Token>(std::const_pointer_cast<Entity>(currentEvent.entity));
+			// Check whether destination is central or some backup facility.
+			destinationIsCentralOrBackup = false; // Reset flag.
+			for (auto &boincServerIter : boincServer) {
+				if (token->destination == boincServerIter.first) {
+					// Destination is some central/backup server; set flag, break loop.
+					destinationIsCentralOrBackup = true;
+					break;
+				}
+			}
+			
+			// Route to central facility or backup if coming from link, otherwise, done.
+			if (!destinationIsCentralOrBackup) { 
+				boincServerIterator = boincServer.begin();
+				if (isBackupServerActive) {
+					// Generate a random uniform number from 0 to numberOfBoincServers, iterate to that BOINC server, and schedule service for it.
+					// If variate == 0, do not increment; if it is 1, increment once; if it is 2, increment twice, and so forth.
+					// Important! DO NOT put the uniformVariate INSIDE the for loop definition! It results in having a new random number generated EVERY ITERATION,
+					// causing very weird behavior and probability distribution! DO NOT!!!
+					randomBoincServer = uniformVariate(simulatorGlobals.getRandomNumberGeneratorEngineInstance());
+					for (int i = 0; i < randomBoincServer; ++i) {
+						++boincServerIterator;
+					}
+				}
+				token->destination = boincServerIterator->first; // Sets destination to chosen BOINC server (or always first, central server, if no backup is active).
+				// Schedule next event for the token.
+				scheduler.schedule(Event(0.0, EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BOINC_FACILITY, token));
+			}
+
+
+				//	if (uniformVariate(simulatorGlobals.getRandomNumberGeneratorEngineInstance()) == 1) {
+				//		token->destination = centralFacility;
+				//		// Schedule next event for the token.
+				//		scheduler.schedule(Event(0.0, EventType::REQUEST_SERVICE_FOR_TOKEN_AT_CENTRAL_FACILITY, token));
+				//	} else {
+				//		token->destination = backupFacility;
+				//		// Schedule next event for the token.
+				//		scheduler.schedule(Event(0.0, EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BACKUP_FACILITY, token));
+				//	}
+				//} else {
+				//	token->destination = centralFacility;
+				//	// Schedule next event for the token.
+				//	scheduler.schedule(Event(0.0, EventType::REQUEST_SERVICE_FOR_TOKEN_AT_CENTRAL_FACILITY, token));
+				//}
+			break;
+
+		case EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BOINC_FACILITY:
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BOINC_FACILITY" << std::endl;
+			// Increment arrival count here.
+			//++totalTokensArrivedAtCentralFacility;
+			++boincServer.at(std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->destination));
+			// Request service for current token at central server. If token was successfully put into service, schedules release. Otherwise, do nothing (it was probably enqueued).
+			if (std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->destination)->request(std::dynamic_pointer_cast<const Token>(currentEvent.entity), EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BOINC_FACILITY) == FacilityReturnType::TOKEN_PUT_IN_SERVICE) {
+				scheduler.schedule(Event(exponentialVariateCentralServer(simulatorGlobals.getRandomNumberGeneratorEngineInstance()), EventType::RELEASE_TOKEN_FROM_SERVICE_AT_FACILITY, std::dynamic_pointer_cast<const Token>(currentEvent.entity)));
+			}
+			break;
+		
+		//case EventType::REQUEST_SERVICE_FOR_TOKEN_AT_CENTRAL_FACILITY:
+		//	if (printTrace)
+		//		std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::REQUEST_SERVICE_FOR_TOKEN_AT_CENTRAL_FACILITY" << std::endl;
+		//	// Increment arrival count here.
+		//	++totalTokensArrivedAtCentralFacility;
+		//	// Request service for current token at central server. If token was successfully put into service, schedules release. Otherwise, do nothing (it was probably enqueued).
+		//	if (std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->destination)->request(std::dynamic_pointer_cast<const Token>(currentEvent.entity), EventType::REQUEST_SERVICE_FOR_TOKEN_AT_CENTRAL_FACILITY) == FacilityReturnType::TOKEN_PUT_IN_SERVICE) {
+		//		scheduler.schedule(Event(exponentialVariateCentralServer(simulatorGlobals.getRandomNumberGeneratorEngineInstance()), EventType::RELEASE_TOKEN_FROM_SERVICE_AT_FACILITY, std::dynamic_pointer_cast<const Token>(currentEvent.entity)));
+		//	}
+		//	break;
+
+		//case EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BACKUP_FACILITY:
+		//	if (printTrace)
+		//		std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BACKUP_FACILITY" << std::endl;
+		//	// Increment arrival count here.
+		//	++totalTokensArrivedAtBackupFacility;
+		//	// Request service for current token at central server. If token was successfully put into service, schedules release. Otherwise, do nothing (it was probably enqueued).
+		//	if (std::dynamic_pointer_cast<Facility>(std::dynamic_pointer_cast<const Token>(currentEvent.entity)->destination)->request(std::dynamic_pointer_cast<const Token>(currentEvent.entity), EventType::REQUEST_SERVICE_FOR_TOKEN_AT_BACKUP_FACILITY) == FacilityReturnType::TOKEN_PUT_IN_SERVICE) {
+		//		scheduler.schedule(Event(exponentialVariateCentralServer(simulatorGlobals.getRandomNumberGeneratorEngineInstance()), EventType::RELEASE_TOKEN_FROM_SERVICE_AT_FACILITY, std::dynamic_pointer_cast<const Token>(currentEvent.entity)));
+		//	}
+		//	break;
+
+		case EventType::ACTIVATE_BACKUP_FACILITY:
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::ACTIVATE_BACKUP_FACILITY" << std::endl;
+			// Activate backup facility, will reroute half of the generators to the backup facility from now on.
+			isBackupServerActive = true;
+			break;
+
+		case EventType::END_SIMULATION:
+			if (printTrace)
+				std::cout << "Clock: " << simulatorGlobals.getCurrentAbsoluteTime() << "  Event chain current size: " << scheduler.getChainSize() << "  EventType::END_SIMULATION" << std::endl;
+			// End simulation by setting flag.
+			simulationEnded = true;
+			break;
+		}
+	}
+
+	// Print a few statistics.
+	
+	
+	std::cout << "Multiple links\n\n" << std::endl;
+	std::cout << "Simulated time: " << simulatorGlobals.getCurrentAbsoluteTime() << std::endl;
+	std::cout << "\nExponential Source Stats:" << std::endl;
+	std::cout << "-------------------------" << std::endl;
+	for (auto &keyValue : sourceAndLink) {
+		//std::cout << "Tokens generated: " << keyValue.second->getTokensGeneratedCount() << std::endl;
+		//std::cout << "Mean interarrival time: " << keyValue.second->getTau() << std::endl;
+		std::cout << "Tokens generated: " << keyValue.second.getTokensGeneratedCount() << std::endl;
+		std::cout << "Mean interarrival time: " << keyValue.second.getTau() << std::endl;
+	}
+	std::cout << "\nServers:" << std::endl;
+	std::cout << "--------" << std::endl;
+	std::cout << "Mean service time network links: " << serviceTimeNetworkLinks << std::endl;
+	std::cout << "Mean service time central facility: " << serviceTimeCentralServer << std::endl;
+	for (auto &keyValue : sourceAndLink) {
+		std::cout << "Utilization: " << keyValue.first->getUtilization() << std::endl;
+		std::cout << "Tokens served: " << keyValue.first->getFullyServicedTokensCount() << std::endl;
+		std::cout << "Mean service rate: " << keyValue.first->getMeanServiceRate() << std::endl;
+		//arrivalRate = keyValue.second->getTokensGeneratedCount() / simulatorGlobals.getCurrentAbsoluteTime();
+		arrivalRate = keyValue.second.getTokensGeneratedCount() / simulatorGlobals.getCurrentAbsoluteTime();
+		std::cout << "Arrival rate: " << arrivalRate << std::endl;
+		std::cout << "Mean queue size: " << keyValue.first->getMeanQueueLength() << std::endl;
+		std::cout << "Mean queue wait time: " << keyValue.first->getMeanQueueLength() / arrivalRate << std::endl;
+		std::cout << "Max queue size: " << keyValue.first->getMaxRecordedQueueSize() << std::endl;
+	}
+		
+	// Print BOINC server statistics.
+	int boincServerCounter = 0;
+	for (auto &boincServerIter : boincServer) {
+		std::cout << "\nBOINC facility #" << boincServerCounter << " queue" << std::endl;
+		std::cout << "-------------------------" << std::endl;
+		std::cout << "Tokens arrived: " << boincServerIter.second<< std::endl;
+		arrivalRate = boincServerIter.second / simulatorGlobals.getCurrentAbsoluteTime();
+		std::cout << "Arrival rate: " << arrivalRate << std::endl;
+		std::cout << "Mean queue size: " << boincServerIter.first->getMeanQueueLength() << std::endl;
+		std::cout << "Mean queue wait time: " << boincServerIter.first->getMeanQueueLength() / arrivalRate << std::endl;
+		std::cout << "Max queue size: " << boincServerIter.first->getMaxRecordedQueueSize() << std::endl;
+		++boincServerCounter;
+	}
+	
+	//std::cout << "\nCentral facility queue" << std::endl;
+	//std::cout << "----------------------" << std::endl;
+	//std::cout << "Tokens arrived: " << totalTokensArrivedAtCentralFacility << std::endl;
+	//arrivalRate = totalTokensArrivedAtCentralFacility / simulatorGlobals.getCurrentAbsoluteTime();
+	//std::cout << "Arrival rate: " << arrivalRate << std::endl;
+	//std::cout << "Mean queue size: " << centralFacility->getMeanQueueLength() << std::endl;
+	//std::cout << "Mean queue wait time: " << centralFacility->getMeanQueueLength() / arrivalRate << std::endl;
+	//std::cout << "Max queue size: " << centralFacility->getMaxRecordedQueueSize() << std::endl;
+
+	//std::cout << "\nBackup facility queue" << std::endl;
+	//std::cout << "----------------------" << std::endl;
+	//std::cout << "Tokens arrived: " << totalTokensArrivedAtBackupFacility << std::endl;
+	//arrivalRate = totalTokensArrivedAtBackupFacility / simulatorGlobals.getCurrentAbsoluteTime();
+	//std::cout << "Arrival rate: " << arrivalRate << std::endl;
+	//std::cout << "Mean queue size: " << backupFacility->getMeanQueueLength() << std::endl;
+	//std::cout << "Mean queue wait time: " << backupFacility->getMeanQueueLength() / arrivalRate << std::endl;
+	//std::cout << "Max queue size: " << backupFacility->getMaxRecordedQueueSize() << std::endl;
+	
+	return 0;
+}
+

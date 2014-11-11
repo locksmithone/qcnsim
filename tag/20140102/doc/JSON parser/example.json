@@ -1,0 +1,131 @@
+{
+    "parameters": {
+        "simName": "testSim",
+        "simDesc": "",
+        "initalClock": 10000,
+        "endClock": 10100,
+        "printTraces": false,
+        "startRecTime": 10050
+    },
+    "earthquakes": [
+        {
+            "ID": "1",
+            "magnitude": "6.5",
+            "time": "10",
+            "swaveSpeed": "10",
+            "depth": "15",
+            "location": {
+                "lat": "40.463666324587685",
+                "lng": "-75.95878601074219"
+            }
+        }
+    ],
+    "sensors": [
+        {
+            "ID": "2",
+            "onFrac": "0.9",
+            "connFrac": "0.78",
+            "actFrac": "0.9",
+            "flaseTrigRate": "6.63",
+            "trigLowerBound": "0.098",
+            "trigUpperBound": "0.196",
+            "trigProb": "0.5",
+            "pduSize": "1000",
+            "location": {
+                "lat": "41.934976500546604",
+                "lng": "-77.21122741699219"
+            },
+            "routes": [
+                [
+                    "4",
+                    "5"
+                ]
+            ]
+        },
+        {
+            "ID": "3",
+            "onFrac": "0.9",
+            "connFrac": "0.78",
+            "actFrac": "0.89",
+            "flaseTrigRate": "6.63",
+            "trigLowerBound": "0.098",
+            "trigUpperBound": "0.196",
+            "trigProb": "0.5",
+            "location": {
+                "lat": "41.75492216766298",
+                "lng": "-77.98027038574219"
+            },
+            "routes": [
+                [
+                    "4",
+                    "5"
+                ],
+                [
+                    "8",
+                    "4",
+                    "5"
+                ]
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "ID": "4",
+            "location": {
+                "lat": "41.75492216766298",
+                "lng": "-78.98027038574219"
+            }
+        },
+        {
+            "ID": "5",
+            "location": {
+                "lat": "42.75492216766298",
+                "lng": "-77.98027038574219"
+            }
+        },
+        {
+            "ID": "8",
+            "location": {
+                "lat": "42.75492216766298",
+                "lng": "-77.98027038574219"
+            }
+        }
+    ],
+    "links": [
+        {
+            "ID": "6",
+            "src": "2",
+            "dest": "4",
+            "bandwidth": "10",
+            "medium": "wireless"
+        },
+        {
+            "ID": "7",
+            "src": "4",
+            "dest": "5",
+            "bandwidth": "100",
+            "medium": "fiber"
+        },
+        {
+            "ID": "9",
+            "src": "3",
+            "dest": "8",
+            "bandwidth": "2",
+            "medium": "wireless"
+        },
+        {
+            "ID": "10",
+            "src": "8",
+            "dest": "4",
+            "bandwidth": "7",
+            "medium": "wire"
+        },
+        {
+            "ID": "11",
+            "src": "3",
+            "dest": "4",
+            "bandwidth": "7",
+            "medium": "wire"
+        }
+    ]
+}

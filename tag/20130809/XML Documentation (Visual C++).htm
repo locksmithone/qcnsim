@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+    <head><link rel="canonical" href="http://msdn.microsoft.com/en-us/library/ms177226(v=vs.100).aspx" />
+        <title>XML Documentation (Visual C++)</title>
+
+
+
+<meta name="DCS.dcsuri" content="/en-us/library/ms177226(d=default,l=en-us,v=vs.100).aspx" />
+<meta name="NormalizedUrl" content="http://msdn.microsoft.com/en-us/library/ms177226(d=default,l=en-us,v=vs.100).aspx" />
+<meta name="DCSext.ProductFamily" content="LIB_DG" />
+<meta name="DCSext.Product" content="VS_VC" />
+<meta name="DCSext.Title" content="XML Documentation (Visual C++)" />
+<meta name="VotingContextUrl" content="http://msdn.microsoft.com/en-us/library/ms177226(d=default,l=en-us,v=vs.100).aspx" />
+<meta name="MN" content="FB361393-11:35:23 AM" />
+<meta name="Search.ShortId" content="ms177226" />
+<meta name="Ms.Locale" content="en-us" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/Topic.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/CodeSnippet.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/ProgrammingSelector.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/ExpandableCollapsibleArea.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/CommunityContent.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/TopicNotInScope.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/FeedViewerBasic.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/ImageSprite.css" />
+        
+    </head>
+    <body class="library">
+        <div id="page">
+            <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js" data-provides="JQuery"></script>
+            <script type="text/javascript" src="/Areas/Epx/Content/Scripts/Utilities.js" data-requires="JQuery"> </script>
+  
+            
+  <link rel="stylesheet" type="text/css" href="/Areas/Epx/Themes/Msdn/Content/Header.1.css" xmlns="http://www.w3.org/1999/xhtml" />
+
+
+
+    <link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/ImageSprite.css" />
+    <div id="ux-header" class=" ltr">
+        <div class="BrandLogo">
+            <a href="http://msdn.microsoft.com/en-us">
+                <span class="BrandLogoImage msdn" title="MSDN"></span>
+            </a>
+        </div>
+        <div class="GlobalBar">
+            <div id="LocaleSelector">
+                
+<a title="Change your language" id="SelectLocale" href="http://msdn.microsoft.com/en-us/SelectLocale?fromPage=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms177226(v%3dvs.100).aspx">United States (English)</a>
+        
+            
+            
+            </div>
+
+            
+
+    <div class="signIn"><a class="scarabLink" href="https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=11&amp;ct=1366310124&amp;rver=6.0.5276.0&amp;wp=MCLBI&amp;wlcxt=MSDN%24MSDN%24MSDN&amp;wreply=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms177226%2528v%3dvs.100%2529.aspx&amp;lc=1033&amp;id=254354&amp;mkt=en-US" title="Sign in">Sign in</a></div>
+
+                
+                <div class="Icons">
+                    <a href="http://msdn.microsoft.com/en-us/library/ms177226(d=printer,v=vs.100).aspx" title="Print/Export" rel="nofollow">
+                        <div class="clip26x23">
+                            <img class="isd_print" src="/Areas/Epx/Content/Images/ImageSprite.png" alt="" />
+                        </div>
+                    </a>
+                </div>
+        </div>
+        <div class="ux-mtps-internav">
+            
+
+<script type="text/javascript" src="/Areas/Epx/Themes/Base/Content/SearchBox.js"></script>    
+
+<div class="SearchBox">
+              <form id="HeaderSearchForm" name="HeaderSearchForm" method="get" action="http://social.technet.microsoft.com/Search" onsubmit="return Epx.Controls.SearchBox.searchBoxOnSubmit(this, this.title);">
+            <input id="HeaderSearchTextBox" name="query" type="text" maxlength="200"
+                   onfocus="Epx.Controls.SearchBox.watermarkFocus(this, this.title, 'TextBoxSearch')" 
+                   onblur="Epx.Controls.SearchBox.watermarkBlur(this, this.title, 'TextBoxSearch')" />
+            <input id="RefinementId" name="refinement" type="hidden" value="" />
+            <button id="HeaderSearchButton" value="" type="submit" class="header-search-button"></button>
+        </form>
+        <script type="text/javascript" src="http://i3.services.social.microsoft.com/search/Widgets/SearchBox.jss?boxid=HeaderSearchTextBox&amp;btnid=HeaderSearchButton&amp;brand=MSDN&amp;loc=en-us&amp;watermark=MSDN"></script>
+    
+</div>
+
+            <div class="TocNavigation">
+   
+   <div class="toclevel1">
+          <a class="normal" href="http://msdn.microsoft.com/" title="Home">Home</a>
+          <a class="active" href="http://msdn.microsoft.com/library/default.aspx" title="Library">Library</a>
+          <a class="normal" href="http://msdn.microsoft.com/bb188199" title="Learn">Learn</a>
+          <a class="normal" href="http://code.msdn.microsoft.com/" title="Samples">Samples</a>
+          <a class="normal" href="http://msdn.microsoft.com/aa570309" title="Downloads">Downloads</a>
+          <a class="normal" href="http://msdn.microsoft.com/hh361695" title="Support">Support</a>
+          <a class="normal" href="http://msdn.microsoft.com/aa497440" title="Community">Community</a>
+          <a class="normal" href="http://social.msdn.microsoft.com/forums/en-us/categories" title="Forums">Forums</a>
+
+    </div>
+  
+</div>
+        </div>
+    </div>
+
+
+        
+            <div id="body">
+                
+
+
+
+
+
+
+
+<div id="leftNav">
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Library/Content/Toc.css" />
+<script type="text/javascript" src="/Areas/Epx/Library/Content/Toc.js"></script>
+
+<div id="tocnav">
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/ms123401.aspx" id="ms310241_MSDN.10_en-us" title="MSDN Library">MSDN Library</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/aa187916.aspx" id="aa187916_MSDN.10_en-us" title="Development Tools and Languages">Development Tools and Languages</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/dd831853(v=vs.100).aspx" id="aa187919_MSDN.10_en-us" title="Visual Studio 2010">Visual Studio 2010</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/52f3sw5c(v=vs.100).aspx" id="dd429925_VS.100_en-us" title="Visual Studio">Visual Studio</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/ee822860(v=vs.100).aspx" id="dd548131_VS.100_en-us" title="Visual Studio Languages">Visual Studio Languages</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/60k1461a(v=vs.100).aspx" id="ms302012_VS.100_en-us" title="Visual C++">Visual C++</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/ty9hx077(v=vs.100).aspx" id="ms302026_VS.100_en-us" title="Visual C++ Reference">Visual C++ Reference</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/dtefa218(v=vs.100).aspx" id="ms300715_VS.100_en-us" title="C/C++ Languages">C/C++ Languages</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/3bstk3k5(v=vs.100).aspx" id="ms300810_VS.100_en-us" title="C++ Language Reference">C++ Language Reference</a>            </div>
+            <div class="toclevel0" data-toclevel="0">
+<a data-tochassubtree="true" href="/en-us/library/xey702bw(v=vs.100).aspx" id="ms300811_VS.100_en-us" title="Language Features for Targeting the CLR">Language Features for Targeting the CLR</a>            </div>
+            <div class="toclevel1 current" data-toclevel="1">
+<a data-tochassubtree="true" href="/en-us/library/ms177226(v=vs.100).aspx" id="bb557402_VS.100_en-us" title="XML Documentation (Visual C++)">XML Documentation (Visual C++)</a>            </div>
+            <div class="toclevel2" data-toclevel="2">
+<a data-tochassubtree="true" href="/en-us/library/ms177227(v=vs.100).aspx" id="bb557403_VS.100_en-us" title="Recommended Tags for Documentation Comments (Visual C++)">Recommended Tags for Documentation Comments (Visual C++)</a>            </div>
+            <div class="toclevel2" data-toclevel="2">
+<a href="/en-us/library/ms177245(v=vs.100).aspx" title=".Xml File Processing">.Xml File Processing</a>            </div>
+            <div class="toclevel2" data-toclevel="2">
+<a href="/en-us/library/ms177246(v=vs.100).aspx" title="Delimiters for Visual C++ Documentation Tags">Delimiters for Visual C++ Documentation Tags</a>            </div>
+            <div class="toclevel2" data-toclevel="2">
+<a href="/en-us/library/ms177247(v=vs.100).aspx" title="XDCMake Reference">XDCMake Reference</a>            </div>
+</div>    
+    
+    
+    
+    
+    
+    
+    <link type="text/css" rel="stylesheet" href="/Areas/Epx/Library/Content/NavigationResize.css" />
+
+<a id="NavigationResize" href="javascript:void(0)">
+    <img class="cl_nav_resize_open" src="/Areas/Epx/Content/Images/ImageSprite.png" title="Expand" alt="Expand" />
+    <img class="cl_nav_resize_close" src="/Areas/Epx/Content/Images/ImageSprite.png" title="Minimize" alt="Minimize" />
+</a>
+
+<script type="text/javascript" src="/Areas/Epx/Library/Content/NavigationResize.js"></script>
+
+</div>
+<div id="content" class="content">
+
+
+
+
+
+
+
+
+
+
+    <link href="/Areas/Epx/Shared/Content/FeedbackCounter.css" rel="stylesheet" type="text/css" />
+    <script src="/Areas/Epx/Shared/Content/FeedbackCounter.js" type="text/javascript"></script>
+
+    <div id="ratingCounterSeperator" class="cl_lw_vs_seperator" style="display: none;"></div>
+
+    <div id="ratingCounter">
+        <span id="rcA" class="ratingText">
+            0 out of 8 rated this helpful <span id="rateThisPrefix">- </span><a id="rateThisTopic" href="#feedback" title="Rate this topic">Rate this topic</a>
+            
+        </span>
+    </div>
+
+        
+<!--starting processing-->
+<div class="topic" xmlns="http://www.w3.org/1999/xhtml">
+  <h1 class="title">XML Documentation (Visual C++)<!----></h1>
+  <link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/VersionSelector.css" />
+  <div class="lw_vs">
+    <div id="curversion">
+      <strong>
+            Visual Studio 2010
+        </strong>
+    </div>
+    <div id="versionclick">
+      <div id="vsseperator" class="cl_lw_vs_seperator"></div>
+      <div>
+        <div>
+          <a id="vsLink" href="javascript:;">
+                        Other Versions
+                    </a>
+        </div>
+        <div class="cl_vs_arrow clip10x10">
+          <img class="cl_lw_vs_arrow" id="vsArrow" alt="" src="/Areas/Epx/Content/Images/ImageSprite.png" />
+        </div>
+      </div>
+      <ul id="vsPanel">
+        <li>
+          <a href="/en-us/library/ms177226(v=vs.90).aspx" title="">Visual Studio 2008</a>
+        </li>
+        <li>
+          <a href="/en-us/library/ms177226(v=vs.80).aspx" title="">Visual Studio 2005</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div style="clear:both;"></div>
+  <!--Content type: Devdiv1. Transform: orcas2mtps.xslt.-->
+  <div id="mainSection">
+    <div id="mainBody">
+<div class="introduction"><p>In Visual C++, you can add XML documentation (triple-slash) comments to your source code and instruct the compiler to output them to an .xml file. This file can then be input to a process that creates documentation for the classes in your code. The IDE for Visual C++ in this version does not support XML comments in Intellisense.</p><p>XML documentation can be used regardless of whether you compile with or without <strong>/clr</strong>.</p><div class="alert"><table><tr><th><!--src=[../icons/alert_note.gif]--><img id="alert_note" alt="Note" src="/dynimg/IC101471.gif" title="Note" xmlns="" /><strong>Note</strong></th></tr><tr><td><p>In the current release, code comments are not processed on templates or anything containing a template type (for example, a function taking a parameter as a template). Adding such comments will result in undefined behavior.</p></td></tr></table></div><p>For details on creating an .xml file with documentation comments, see the following topics.</p><div class="caption"><!----></div><div class="tableSection"><table><tr><th><p>For information about</p></th><th><p>See</p></th></tr><tr><td><p>The compiler options to use</p></td><td><p><a href="http://msdn.microsoft.com/en-us/library/ms173501(v=vs.100).aspx">/doc</a> and (optionally)  <a href="http://msdn.microsoft.com/en-us/library/k8d11d4s(v=vs.100).aspx">/clr</a></p></td></tr><tr><td><p>Tags you can use to provide commonly used functionality in documentation</p></td><td><p><a href="http://msdn.microsoft.com/en-us/library/ms177227(v=vs.100).aspx">Recommended Tags for Documentation Comments</a></p></td></tr><tr><td><p>The ID strings that the compiler produces to identify the constructs in your code</p></td><td><p><a href="http://msdn.microsoft.com/en-us/library/ms177245(v=vs.100).aspx">Processing the .xml File</a></p></td></tr><tr><td><p>How to delimit documentation tags</p></td><td><p><a href="http://msdn.microsoft.com/en-us/library/ms177246(v=vs.100).aspx">Delimiters for Visual C++ Documentation Tags</a></p></td></tr><tr><td><p>Generating an .xml file from one or more .xdc files.</p></td><td><p><a href="http://msdn.microsoft.com/en-us/library/ms177247(v=vs.100).aspx">XDCMake Reference</a></p></td></tr><tr><td><p>Links to information about XML as it relates to Visual Studio feature areas</p></td><td><p><a href="http://msdn.microsoft.com/en-us/library/1w884ed3(v=vs.100).aspx">XML in Visual Studio</a></p></td></tr></table></div><p>If you need to put XML special characters in the text of a documentation comment, you must use XML entities or a CDATA section.</p></div><div><script type="text/javascript">MTPS = window.MTPS || {}; MTPS.LocalizedStrings = window.MTPS.LocalizedStrings || {}; MTPS.LocalizedStrings.ExpandButtonTooltip = 'Expand'; MTPS.LocalizedStrings.CollapseButtonTooltip = 'Collapse';</script><div class="LW_CollapsibleArea_TitleDiv"><div><a href="javascript:void(0)" class="LW_CollapsibleArea_TitleAhref" title="Collapse"><span class="cl_CollapsibleArea_expanding LW_CollapsibleArea_Img"></span><span class="LW_CollapsibleArea_Title">See Also</span></a><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div></div><div class="sectionblock"><a id="seeAlsoToggle"><!----></a><h4 class="subHeading">Concepts</h4><div class="seeAlsoStyle"><span><a href="http://msdn.microsoft.com/en-us/library/xey702bw(v=vs.100).aspx">Language Features for Targeting the CLR</a></span></div></div></div></div>
+  </div>
+</div>
+
+
+<link href="/Areas/Epx/Shared/Content/Feedback.css" rel="stylesheet" type="text/css" />
+<script src="/Areas/Epx/Shared/Content/Feedback.js" type="text/javascript"></script>
+
+<div id="contentFeedback">
+    <form method="post" action="/en-us/library/feedback/add/ms177226(v=vs.100).aspx">
+        <input name="__RequestVerificationToken" type="hidden" value="gzRAW6yxvKi_pOcNV0uBjn3OOnD1QZ58r0XKzBlj-tfAbIXoP1OJua3_BamWZ-edG-wIKeyuaG5aZChX2xl7Kd9HwT0SrvdqXPWUvkya1D9RbqOxnjzSjqc5wiy4xD2-WrSEAA2" />
+    <div id="contentFeedbackContainer">
+        <div class="FeedbackTitleContainer">
+            <a name="feedback"></a>
+        Did you find this helpful?
+            <input id="rdIsUsefulYes" name="rdIsUseful" type="radio" value="1" onclick="toggleContentFeedback('Yes');" /><label for="rdIsUsefulYes">Yes</label>
+            <input id="rdIsUsefulNo" name="rdIsUseful" type="radio" value="0" onclick="toggleContentFeedback('No');" /><label for="rdIsUsefulNo">No</label>
+        
+        </div>
+        
+            <div id="contentFeedbackQAContainer">
+                
+                    <div id="feedbackListNoContainer" class="FeedbackListContainer">
+                        
+                            <div>
+                                <input id="chkbxNo201" name="chkbxNo" type="checkbox" value="201" />
+                                <label for="chkbxNo201">Not accurate</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo202" name="chkbxNo" type="checkbox" value="202" />
+                                <label for="chkbxNo202">Not enough depth</label>
+                            </div>
+                        
+                            <div>
+                                <input id="chkbxNo203" name="chkbxNo" type="checkbox" value="203" />
+                                <label for="chkbxNo203">Need more code examples</label>
+                            </div>
+                        
+                    </div>
+                
+                <div class="FeedbackTellUsMoreContainer">
+                    <textarea id="feedbackText" name="feedbackText" class="TellUsMoreTextBoxSearchLoaded"
+                        onfocus="WatermarkFocus(this, 'Tell us more...', 'TellUsMoreTextBoxSearch')"
+                        onblur="WatermarkBlur(this, 'Tell us more...', 'TellUsMoreTextBoxSearchLoaded')"
+                        onmouseover="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)"
+                        onkeydown="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)"
+                        onkeyup="TextBoxCharactersCounter(this, document.getElementById('feedbackTextCounter'), 1500)">Tell us more...</textarea>
+                </div>
+                <span class="counter">(<span id="feedbackTextCounter">1500</span> characters remaining)</span>
+                <input type="hidden" id="returnUrl" name="returnUrl" value="http://msdn.microsoft.com/en-us/library/ms177226(v=vs.100).aspx" />
+                <input type="submit" id="submit" value="Submit" title="Click to Submit Feedback" onclick="WatermarkOnSubmit(document.getElementById('feedbackText'), 'Tell us more...', 'TellUsMoreTextBoxSearch')" />
+                <div style="clear: both;"></div>
+            </div>  
+        
+    </div>
+    </form>
+</div>
+    
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="/Areas/Epx/Content/Scripts/CommunityContent.js"></script>
+
+<script id="CommentTemplate" type="text/x-jquery-tmpl">
+    <div class="communityContentAnnotation">
+        <a name="${Index}"></a>
+        <h3>
+            ${Title}
+        </h3>
+        <div class="communityContentAnnotationBody">
+            {{html Body}}
+        </div>
+        <div class="communityContentAnnotationInfo">
+            <div class="communityContentAnnotationAvatarContainer">
+                <a href="${UserAvatar.Href}" title="${UserAvatar.ToolTip}" class="communityContentAnnotationAvatar"><img src="${UserAvatar.ImageUrl}" alt="${UserAvatar.ImageAltText}" width="34" height="34" /></a>
+            </div>
+            <div class="communityContentAnnotationUserDateContainer">
+                <div class="communityContentAnnotationUserContainer">
+                    <a href="${UserAvatar.Href}">
+                        ${User}
+                    </a>
+                </div>
+                <div class="communityContentAnnotationDateContainer">
+                    <span>${Date}</span>
+                    
+                    {{if EditLink}}
+                        <span>
+                            <a href="${EditLink.Href}" title="${EditLink.ToolTip}" class="communityContentCommentEditLink">${EditLink.Title}</a>
+                        </span>
+                    {{/if}}
+
+                    {{if DeleteLink}}
+                        <span>
+                            <a href="${DeleteLink.Href}" title="${DeleteLink.ToolTip}" class="communityContentDeleteLink">${DeleteLink.Title}</a>
+                        </span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="communityContentContainer">
+    <div id="CommunityContentHeader" class="communityContentHeader">
+        <div class="communityContentHeaderTitleContainer">
+            <h2>Community Additions</h2>
+                <a class="communityContentAddLink" href="http://msdn.microsoft.com/en-us/library/community/add/ms177226(v=vs.100).aspx">
+                    <span class="communityContentAddButton" title="Add">
+                        ADD
+                    </span>
+                </a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    
+    <div id="CommunityComments" data-url="/en-us/library/community/comments/ms177226(v=vs.100).aspx"></div>
+</div>
+
+
+
+</div>
+
+
+            </div>
+            <div class="clear"></div>
+        
+            
+    <link rel="stylesheet" type="text/css" href="/Areas/Epx/Themes/Msdn/Content/Footer.1.css" xmlns="http://www.w3.org/1999/xhtml" />
+   <div id="ux-footer" class=" ltr">
+    <div id="ux-footer-cols">
+        
+
+        <div class="TocNavigation">
+            <div class="linksContainer">
+                    <ul class="links" style="width: 19.99%;">
+                        <li class="linksTitle"><a href="http://msdn.microsoft.com/vstudio/default.aspx" title="Tools">Tools</a></li>
+                                <li><a href="http://msdn.microsoft.com/vstudio/default.aspx" title="Visual Studio">Visual Studio</a></li>
+                                <li><a href="http://expression.microsoft.com/default.aspx" title="Expression">Expression</a></li>
+                                <li><a href="http://www.asp.net/" title="ASP.NET">ASP.NET</a></li>
+                                <li><a href="http://msdn.microsoft.com/silverlight/" title="Silverlight">Silverlight</a></li>
+                    </ul>
+                    <ul class="links" style="width: 19.99%;">
+                        <li class="linksTitle"><a href="http://msdn.microsoft.com/vstudio/default.aspx" title="Platforms">Platforms</a></li>
+                                <li><a href="http://msdn.microsoft.com/vstudio/default.aspx" title="Visual Studio">Visual Studio</a></li>
+                                <li><a href="http://msdn.microsoft.com/windows/apps/default.aspx" title="Windows">Windows</a></li>
+                                <li><a href="https://dev.windowsphone.com/" title="Windows Phone">Windows Phone</a></li>
+                                <li><a href="http://www.windowsazure.com/en-us/develop/overview/" title="Windows Azure">Windows Azure</a></li>
+                                <li><a href="http://msdn.microsoft.com/office/default.aspx" title="Office">Office</a></li>
+                    </ul>
+                    <ul class="links" style="width: 19.99%;">
+                        <li class="linksTitle"><a href="http://msdn.microsoft.com/windowsserver/default.aspx" title="Servers">Servers</a></li>
+                                <li><a href="http://msdn.microsoft.com/windowsserver/default.aspx" title="Windows Server">Windows Server</a></li>
+                                <li><a href="http://msdn.microsoft.com/exchange/default.aspx" title="Exchange Server">Exchange Server</a></li>
+                                <li><a href="http://msdn.microsoft.com/sqlserver/default.aspx" title="SQL Server">SQL Server</a></li>
+                                <li><a href="http://msdn.microsoft.com/biztalk/default.aspx" title="Biz Talk Server">Biz Talk Server</a></li>
+                                <li><a href="http://msdn.microsoft.com/data/default.aspx" title="Data">Data</a></li>
+                    </ul>
+                    <ul class="links" style="width: 19.99%;">
+                        <li class="linksTitle"><a href="http://msdn.microsoft.com/subscriptions/default.aspx" title="Developer resources">Developer resources</a></li>
+                                <li><a href="http://msdn.microsoft.com/subscriptions/default.aspx" title="MSDN Subscriptions">MSDN Subscriptions</a></li>
+                                <li><a href="http://msdn.microsoft.com/magazine/default.aspx" title="MSDN Magazine">MSDN Magazine</a></li>
+                                <li><a href="http://msdn.microsoft.com/aa570311" title="MSDN Flash Newsletter">MSDN Flash Newsletter</a></li>
+                                <li><a href="http://code.msdn.microsoft.com/" title="Code Samples">Code Samples</a></li>
+                                <li><a href="http://social.msdn.microsoft.com/forums/en-us/categories" title="MSDN Forums">MSDN Forums</a></li>
+                    </ul>
+                    <ul class="links" style="width: 19.99%;">
+                        <li class="linksTitle"><a href="http://msdn.microsoft.com/evalcenter/default.aspx" title="Get started for free">Get started for free</a></li>
+                                <li><a href="http://msdn.microsoft.com/evalcenter/default.aspx" title="MSDN evaluation center">MSDN evaluation center</a></li>
+                                <li><a href="http://www.microsoft.com/bizspark/" title="BizSpark (for startups)">BizSpark (for startups)</a></li>
+                                <li><a href="https://www.dreamspark.com/" title="DreamSpark (for students)">DreamSpark (for students)</a></li>
+                                <li><a href="https://www.microsoft.com/faculty" title="School faculty">School faculty</a></li>
+                    </ul>
+            </div>
+        </div>        
+
+    </div>
+
+    <div class="ux-footer-clear"></div>
+    <div id="footerRight">
+        <div id="FooterLogoContainer"><div id="FooterLogo" ></div></div>
+        <div id="FooterCopyright">&#169; 2013 Microsoft. All rights reserved.</div> 
+    </div>
+    <div id="footerLeft">
+        <div id="footerGroup">
+            <div id="LinkGroup">
+                <div id="Links1"><div data-fragmentName="FooterLinks" id="Fragment_FooterLinks" xmlns="http://www.w3.org/1999/xhtml">
+  <link rel="stylesheet" type="text/css" href="/Areas/Epx/Themes/Base/Content/LinkList.css" />
+  <div class="LinkList">
+    <div class="Links">
+      <ul class="LinkColumn horizontal">
+        <li>
+          <a href="http://msdn.microsoft.com/en-us/newsletter.aspx" xmlns="http://www.w3.org/1999/xhtml">Newsletter</a>
+        </li>
+        <li>
+          <div class="LinksDivider">|</div>
+          <a href="http://msdn.microsoft.com/en-us/subscriptions/aa948875.aspx" xmlns="http://www.w3.org/1999/xhtml">Contact Us</a>
+        </li>
+        <li>
+          <div class="LinksDivider">|</div>
+          <a href="http://privacy.microsoft.com/en-us/default.mspx" xmlns="http://www.w3.org/1999/xhtml">Privacy Statement</a>
+        </li>
+        <li>
+          <div class="LinksDivider">|</div>
+          <a href="http://msdn.microsoft.com/en-US/cc300389.aspx" xmlns="http://www.w3.org/1999/xhtml">Terms of Use</a>
+        </li>
+        <li>
+          <div class="LinksDivider">|</div>
+          <a href="http://www.microsoft.com/About/Legal/EN/US/IntellectualProperty/Trademarks/EN-US.aspx" xmlns="http://www.w3.org/1999/xhtml">Trademarks</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div></div>
+            </div>
+            <div id="Feedback">
+                <div class="feedbackListItem">
+                    <div class="LinksDivider">|</div>
+                    <div class="LinkColumn">
+                        
+
+
+<link type="text/css" rel="stylesheet" href="/Areas/Epx/Content/Css/ImageSprite.css" />
+<link rel="stylesheet" type="text/css" href="/Areas/Epx/Content/Css/SiteFeedbackLink.css" />
+
+<div class="FooterSiteFeedBack">
+    <a id="SiteFeedbackLinkOpener" href="javascript:void(0)">
+        <span class="FeedbackButton clip20x21" id="FeedbackButton">
+            <img id="feedBackImg" class="cl_footer_feedback_icon" src="/Areas/Epx/Content/Images/ImageSprite.png" alt="Site Feedback" />
+        </span>
+        Site Feedback
+    </a>
+    
+    <div id="SiteFeedbackLinkContainer" class="SiteFeedbackLinkContainer" style="display: none;">
+    <form id="siteFeedbackForm" method="post" action="http://msdn.microsoft.com/en-us/library/feedback/add/ms177226(v=vs.100).aspx?appId=Dev10IDEF1&l=EN-US&k=k(MICROSOFT.VISUALBASIC.STRINGS.TRIM)%3bk(TargetFrameworkMoniker-%22.NETFRAMEWORK,VERSION%3dV4.0%22)%3bk(DevLang-VB)&rd=true">
+        <div class="SiteFeedbackLinkTitleContainer">
+            <div class="SiteFeedbackLinkTitle">
+                Site Feedback
+            </div>
+            <div class="SiteFeedbackLinkCancel">
+                <a id="SiteFeedbackLinkCloser" href="javascript:void(0)">x</a>
+            </div>
+        </div>
+        <div class="SiteFeedbackLinkData">
+            <div class="SiteFeedbackLinkInfoText">
+                Tell us about your experience...
+            </div>
+            <div class="QuestionText">
+                Did the page load quickly?
+            </div>
+            <div class="AnswerText">
+                
+                <span>
+                    Yes<span>
+                        <input id="searchBox" name="searchBox" type="radio" value="1" /></span></span>
+                
+                <span>
+                    No<span>
+                        <input id="searchBox" name="searchBox" type="radio" value="0" /></span></span>
+                
+            </div>
+            <div class="QuestionText">
+                Do you like the page design?
+            </div>
+            <div class="AnswerText">
+                
+                <span>
+                    Yes<span>
+                        <input id="tabbedCode" name="tabbedCode" type="radio" value="1" /></span></span>
+                
+                <span>
+                    No<span>
+                        <input id="tabbedCode" name="tabbedCode" type="radio" value="0" /></span></span>
+                
+            </div>
+            <div class="QuestionText">
+                Tell us more
+            </div>
+            <div class="SiteFeedbackLinkTextAreaContainer">
+                <textarea id="feedbackText" data-maxlength="4000" name="feedbackText" cols="25" rows="5" class="SiteFeedbackLinkTextArea"></textarea>
+                
+                <textarea id="feedbackDescription" name="feedbackDescription" cols="25" rows="10" style="display: none;">Enter description here.</textarea>
+                <input type="hidden" id="feedbackPriority" name="feedbackPriority" value="" />
+                <input type="hidden" id="feedbackSourceUrl" name="feedbackSourceUrl" value="" />
+                <input type="hidden" id="ClientIP" name="ClientIP" value="" />
+                <input type="hidden" id="ClientOS" name="ClientOS" value="" />
+                <input type="hidden" id="ClientBrowser" name="ClientBrowser" value="" />
+                <input type="hidden" id="ClientTime" name="ClientTime" value="" />
+                <input type="hidden" id="ClientTimeZone" name="ClientTimeZone" value="" />
+                
+            </div>
+            <div>
+                <input id="siteFeedbackSubmit" type="submit" value="Send" class="SiteFeedbackLinkSubmit"  />
+            </div>
+        </div>
+        <input type="hidden" id="returnUrl" name="returnUrl" value="http://msdn.microsoft.com/en-us/library/ms177226(v=vs.100).aspx" />
+    </form>
+</div>
+    <script type="text/javascript" src="/Areas/Epx/Content/Scripts/SiteFeedbackLink.js"></script>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+        <div id="Links2"></div>
+    </div>
+</div> 
+
+
+            <div class="footerPrintView">
+                <div class="footerCopyrightPrintView">&#169; 2013 Microsoft. All rights reserved.</div>
+            </div>
+
+            
+            
+    <link type="text/css" rel="stylesheet" href="/Areas/Epx/Themes/Base/Content/Base.css" />
+    <link type="text/css" rel="stylesheet" href="/Areas/Epx/Themes/Msdn/Content/Msdn.css" />
+    <input id="tocPaddingPerLevel" type="hidden" value="17" />
+
+
+        
+            <input id="MtpsDevice" type="hidden" value="Lightweight" />
+
+
+<![CDATA[ Third party scripts and code linked to or referenced from this website are licensed to you by the parties that own such code, not by Microsoft.  See ASP.NET Ajax CDN Terms of Use – http://www.asp.net/ajaxlibrary/CDN.ashx. ]]>
+        
+            <script type="text/javascript" src="/Areas/Epx/Content/Scripts/Topic.js" data-provides="Topic" data-requires="JQuery"> </script>
+            <script type="text/javascript" src="/Areas/Epx/Content/Scripts/CodeSnippet.js"> </script>
+            <script type="text/javascript" src="/Areas/Epx/Content/Scripts/TopicNotInScope.js"> </script>
+            <script type="text/javascript" src="/Areas/Epx/Content/Scripts/CollapsibleArea.js"> </script>
+            <script type="text/javascript" src="/Areas/Epx/Content/Scripts/VersionSelector.js"></script>
+        
+
+<!-- Webtrends Start -->
+<script type="text/javascript" data-provides="webtrends-vars">
+//<![CDATA[
+  var literalNormalizedUrl = '/en-us/library/ms177226(d=default,l=en-us,v=vs.100).aspx';
+  var wt_nvr_ru = 'WT_NVR_RU';
+  var wt_fpcdom = '.microsoft.com';
+  var wt_domlist = 'msdn.microsoft.com';
+  var wt_pathlist = '';
+  var wt_paramlist = 'DCSext.mtps_devcenter';
+  var wt_siteid = 'MSDN';
+  var gDomain = 'm.webtrends.com';
+  var gDcsId = 'dcsmgru7m99k7mqmgrhudo0k8_8c6m';
+  var gFpc = 'WT_FPC';
+
+
+
+  if (document.cookie.indexOf(gFpc + "=") == -1) {
+    var wtidJs = document.createElement("script");
+    wtidJs.src = "//" + gDomain + "/" + gDcsId + "/wtid.js";
+    document.getElementsByTagName("head")[0].appendChild(wtidJs);
+  }
+
+
+
+  var detectedLocale = 'en-us';
+  var wtsp = 'msdnlib_devtools_lang';
+  var gTrackEvents = '0';
+/*]]>*/
+</script>
+
+
+<noscript><div><img alt="DCSIMG" id="Img1" width="1" height="1" src="http://m.webtrends.com/dcsmgru7m99k7mqmgrhudo0k8_8c6m/njs.gif?dcsuri=/nojavascript&amp;WT.js=No"/></div></noscript>
+<script type="text/javascript" src="/Areas/Global/Content/Webtrends/resources/webtrendsscript.js" data-requires="webtrends-vars"></script>
+
+
+<!-- Webtrends End -->
+<script type="text/javascript" data-provides="omniture-vars">
+/*<![CDATA[*/
+  var omni_guid = "3ac57eb9-80d9-4ff4-beb4-b4dc0c100229";
+/*]]>*/
+</script>
+
+
+<script type="text/javascript" 
+        language="javascript" 
+        data-requires="omniture-vars, cdnDomains"
+        src="/Areas/Global/Content/Omniture/resources/MSDN/omni_rsid_MSDN.js">
+</script>
+
+<noscript>
+  <a href="http://www.omniture.com" title="Web Analytics">
+    <img src="//msstonojsmsdn.112.2o7.net/b/ss/msstonojsmsdn/1/H.20.2--NS/0" 
+         height="1"
+         width="1" 
+         border="0" 
+         alt="" />
+  </a>
+</noscript>
+
+
+<script type="text/javascript" src="/Areas/Epx/Content/Scripts/SurveyBroker.js"></script>
+
+<div id="globalRequestVerification">
+    <input name="__RequestVerificationToken" type="hidden" value="mZtC7ZqlNTC8ZxJW2yoBKQ_FQowMoeiCEPX8OLjpejhwNGAHe7C4tHfMbBHQ3zJkoOjuo2LUSv68waUb91weDnw-9a0V5CqdT7rcFM9XquZefaQao9XShFbDCOXqTgJC_MYgDg2" />
+</div>
+
+<script>
+    $(document).ready(function() {
+        try {
+            var token = $("#globalRequestVerification input[name='__RequestVerificationToken']").clone();
+            $("#siteFeedbackForm").append(token);
+        } catch(err) {
+            
+        }
+    });
+</script>
+        </div>
+    </body>
+</html>

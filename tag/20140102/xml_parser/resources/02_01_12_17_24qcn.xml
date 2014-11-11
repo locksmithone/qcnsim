@@ -1,0 +1,23 @@
+<markers>
+<line type='1'>
+<point lat='37.92' lng='-121.99' />
+<point lat='37.86' lng='-122.2' />
+<point lat='37.7' lng='-122.16' />
+<point lat='37.54' lng='-122.01' />
+<point lat='37.57' lng='-121.79' />
+<point lat='37.75' lng='-121.74' />
+<point lat='37.89' lng='-121.84' />
+<point lat='37.92' lng='-121.99' />
+</line>
+<marker name="1" type="1" lat="37.8148" lng="-122.1445" />
+<marker name="2" type="1" lat="37.7135" lng="-121.8806" />
+<marker name="3" type="1" lat="37.86" lng="-122.0275" />
+<marker name="4" type="1" lat="37.6004" lng="-121.9705" />
+<marker name="5" type="1" lat="37.6172" lng="-122.0772" />
+<marker name="6" type="1" lat="37.8352" lng="-122.1674" />
+<marker name="7" type="1" lat="37.8909" lng="-122.0703" />
+<marker name="8" type="1" lat="37.5916" lng="-121.9371" />
+<marker name="9" type="1" lat="37.6228" lng="-121.7859" />
+<marker name="10" type="1" lat="37.7194" lng="-121.9442" />
+<marker name="11" type="1" lat="37.5958" lng="-121.841" />
+</markers>
